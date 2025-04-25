@@ -1,0 +1,31 @@
+services:
+  redis:
+    image: redis:7
+    container_name: redis
+    ports: ["6379:6379"]
+
+  kong:
+    image: kong:3.6
+    container_name: kong
+    volumes:
+      - ./kong/kong.yml:/kong/kong.yml
+      - ./kong/route.lua:/kong/route.lua:ro
+      - ./kong/log.lua:/kong/log.lua:ro  # Add this line to mount the log.lua file
+      - ./kong/kong.conf:/etc/kong/kong.conf:ro
+    command: kong start -c /etc/kong/kong.conf
+    ports:
+      - "8000:8000"   # public gateway
+      - "8001:8001"   # admin API
+    depends_on: [redis, svc1, svc2, svc3]
+
+  svc1:
+    build: ./services/svc_flask
+    environment: { PORT: "5000", SVCNAME: "svc1" }
+
+  svc2:
+    build: ./services/svc_flask
+    environment: { PORT: "5000", SVCNAME: "svc2", EXTRA_DELAY_MS: "120" }
+
+  svc3:
+    build: ./services/svc_flask
+    environment: { PORT: "5000", SVCNAME: "svc3", EXTRA_DELAY_MS: "60" }

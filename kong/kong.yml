@@ -1,0 +1,8 @@
+_format_version: "3.0"
+services:
+- name: my-api
+  url: http://svc1:5000/
+  routes:
+  - name: everything
+    paths: [ /api ]
+    strip_path: true

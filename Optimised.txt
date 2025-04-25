@@ -1,0 +1,51 @@
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+     execution: local
+        script: loadtest/k6.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 100 max VUs, 1m0s max duration (incl. graceful stop):
+              * default: 100 looping VUs for 30s (gracefulStop: 30s)
+
+
+running (0m01.0s), 100/100 VUs, 51831 complete and 0 interrupted iterations
+default   [   3% ] 100 VUs  01.0s/30s
+
+running (0m02.0s), 100/100 VUs, 102519 complete and 0 interrupted iterations
+default   [   7% ] 100 VUs  02.0s/30s
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......................: 140605  51708.489232/s
+    checks_succeeded...................: 0.00%   0 out of 140605
+    checks_failed......................: 100.00% 140605 out of 140605
+
+    ✗ status is 200
+      ↳  0% — ✓ 0 / ✗ 140605
+
+    HTTP
+    http_req_duration......................: avg=0s     min=0s      med=0s       max=0s      p(90)=0s     p(95)=0s    
+    http_req_failed........................: 100.00% 140702 out of 140702
+    http_reqs..............................: 140702  51744.161672/s
+
+    EXECUTION
+    iteration_duration.....................: avg=1.92ms min=32.29µs med=914.62µs max=73.43ms p(90)=5.16ms p(95)=6.31ms
+    iterations.............................: 140605  51708.489232/s
+    vus....................................: 100     min=100              max=100
+    vus_max................................: 100     min=100              max=100
+
+    NETWORK
+    data_received..........................: 0 B     0 B/s
+    data_sent..............................: 0 B     0 B/s
+
+
+
+
+running (0m02.7s), 000/100 VUs, 140603 complete and 105 interrupted iterations
+default ✗ [   9% ] 100 VUs  02.7s/30s
