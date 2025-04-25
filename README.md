@@ -66,13 +66,26 @@ api-gw-redis-opt/
 The table below shows the qualitative difference you should observe when you run the two k6 workloads (baseline vs optimised).  
 Replace the placeholders with your actual numbers once you have run the scripts.
 
-| Scenario                                            | Average latency&nbsp;(ms) | 95-th percentile&nbsp;(ms) | Throughput&nbsp;(req/s) |
-|-----------------------------------------------------|---------------------------|---------------------------|-------------------------|
-| **Baseline** – cache **OFF** (static routing)       | *e.g.* **185**            | *e.g.* **260**            | *e.g.* **610**          |
-| **Optimised** – cache **ON** + dynamic routing      | *e.g.* **55**             | *e.g.* **80**             | *e.g.* **1 800**        |
-| **Improvement** (Optimised ÷ Baseline)              | −70 %                     | −69 %                     | × 3 ↑                   |
+| Scenario                                            | Avg latency&nbsp;(ms) | P95 latency&nbsp;(ms) | Throughput&nbsp;(req/s) |
+|-----------------------------------------------------|-----------------------|-----------------------|-------------------------|
+| **Baseline** – cache **OFF** (static routing)       | *e.g.* **185**        | *e.g.* **260**        | *e.g.* **610**          |
+| **Optimised** – cache **ON** + dynamic routing      | *e.g.* **55**         | *e.g.* **80**         | *e.g.* **1 800**        |
+| **Improvement** (Optimised ÷ Baseline)              | **−70 %**             | **−69 %**             | **× 3&nbsp;↑**          |
 
 <sup>*Numbers shown are illustrative—run `k6` and fill in the real values from your own test output.*</sup>
+
+* **Baseline**  
+  *Disable Redis cache*, use fixed backend (`svc1`) - slowest but useful as comparison  
+
+* **Optimised**  
+  *Turn on Redis caching, and let `route.lua` choose the lightest loaded backend based on *weights*.  
+
+* **Improvement**  
+  - **Avg / P95 latency**：  
+    \[(Optimised − Baseline) ÷ Baseline\] × 100 %  
+    Negative number = decreased latency.  
+  - **Throughput**：  
+    Optimised ÷ Baseline , the result is usually > 1; here “× 3 ↑” is used to show an increase of about 3 times and an upward arrow.
 
 ### View the number of Redis cache hits
 
